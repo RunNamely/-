@@ -1,0 +1,33 @@
+package com.summer.pojo;
+
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class DailyWork {
+
+	private Integer id;//ID标识
+	private Integer flag;//有效标识  0：有效  1：无效
+	private Date createTime;//创建时间
+	private Integer createUserid;//创建人ID
+	private Date updateTime;//修改时间
+	private Integer updateUserid;//修改人ID
+	private Integer scheduleId;//调度ID
+	private Integer equipmentId;//设备id
+	private String equipmentSeq;//设备序号
+	private Date startTime;//加工开始时间
+	private Date endTime;//加工结束时间
+	private Integer workingCount;//加工数量
+	private Integer qualifiedCount;//合格数量
+	private Integer unqualifiedCout;//不合格数量
+	private Integer completeFlag;//结束报工标识  0：是  1：否
+	private Integer factoryId;//工厂ID
+	private String bak;//备注
+
+
+}

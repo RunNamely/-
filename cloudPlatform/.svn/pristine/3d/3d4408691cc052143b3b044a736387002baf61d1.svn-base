@@ -1,0 +1,199 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<script src="lib/Vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/Vue/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="lib/Vue.util/axiosUtils.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+		<title>可生产产品展示</title>
+		<link href="lib/lightbox2/2.8.1/css/lightbox.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<body >
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 可生产产品管理 <span class="c-gray en">&gt;</span> 产品展示
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<form>
+		<div id="app" class="page-container">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				
+					<span class="l"> 
+					<button type="button"  v-on:click="toAddProduct()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe6df;</i> 添加</button> 
+			
+					<button  type="submit"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</button>
+				</span>
+					<span class="r">共有数据：<strong>{{info.length}}</strong> 条</span>
+			</div>
+			<div class="portfolio-content">
+				<table class="table table-border table-bordered table-bg table-hover ">
+					<thead>
+						<tr class="text-c">
+							<th width="30"><input name="" type="checkbox" value=""></th>
+							<th width="40">设备ID</th>
+							<th width="40">产品ID</th>
+							<th width="40">产品图片</th>
+							<th width="30">产品名称</th>
+							<th width="40">产能</th>
+							<th width="40">产能单位</th>
+							<th width="60">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-if="info.length==0">
+							<tr class="text-c ">
+								<td colspan="8">暂无可生产产品!</td>
+							</tr>
+						</template>
+						<template v-for="da in info">
+							<tr class="text-c">
+								<td><input name="" type="checkbox" value="da.equipmentSeq"></td>
+								<td class="text-c">{{eid}}</td>
+								<td class="text-c">{{da.pid}}</td>
+								<td>
+									<img width="150" class="picture-thumb" v-bind:src="da.productImgUrl"></a>
+								</td>
+								<td class="text-c">
+									{{da.productName}}
+								</td>
+								
+								<td class="text-c">{{da.yield}}</td>
+								<td class="text-c">
+								<template v-if="da.unit ==10">								
+											件/天										
+									</template>
+									<template v-else-if="da.unit ==20">										
+											件/月										
+									</template>
+									<template v-else-if="da.unit ==30">									
+											件/年									
+									</template>
+									<template v-else-if="da.unit ==40">										
+											件/小时									
+									</template>
+								</td>				
+								<td class="td-manage text-c">
+									<a style="text-decoration:none" class="ml-5" v-on:click="gotoUpdate(da.pid)" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
+									<a style="text-decoration:none" class="ml-5" v-on:click="delEquipmentProduct(da.pid)" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
+								</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			
+			</div>
+		</div>
+		</form>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="lib/lightbox2/2.8.1/js/lightbox.min.js"></script>
+		<script type="text/javascript">
+			
+				var vm = new Vue({
+				el: "#app",
+				data: {
+					info: [],
+					eid:"", 
+					factoryId: ""
+
+				},
+
+				created() {
+					var id = window.location.search;
+					eid = id.substring(id.indexOf("=") + 1, id.length);
+					url = 'http://localhost:8080/CloudPlatform/EquipmentProductShowServlet';
+					var params = new URLSearchParams();
+					params.append('equipmentId', eid);
+					//发送seq
+					promisePost(url, params).then(res => {
+						vm.info = res;
+						vm.eid = eid;
+						console.log(res);
+					}).catch(err => {
+						console.log(err);
+					})
+
+				},
+
+				methods: {
+					
+					delEquipmentProduct:function (pid) {
+					layer.confirm('确认移除该可生产产品？', function(index) {
+						$.ajax({
+							type: 'POST',
+							url: 'http://localhost:8080/CloudPlatform/EquipmentProductDelServlet',					
+							data: {
+								productId: pid,
+								equipmentId: vm.eid
+							},
+							success: function(data) {
+								
+								layer.msg('已移除!', {
+									icon: 1,
+									time: 1000
+								});
+								location.reload();
+								layer.close(index);
+								
+							},
+							error: function(data) {
+								console.log("移除失败");
+								layer.close(index);
+							},
+						});
+					});
+					},
+
+					gotoUpdate: function(pid) {
+
+						url = "equipment-product-update.html?eid=" + vm.eid+"&pid="+pid; //此处拼接内容
+						window.location.href = url;
+					},
+					
+					
+					back: function() {
+						window.history.go(-1);
+					},
+					
+					toAddProduct: function(){
+						url = "equipment-product-add.html?eid=" + vm.eid; //此处拼接内容
+						window.location.href = url;
+					}
+				}
+			});
+			
+			$(function() {
+				
+				$(".portfolio-area li").Huihover();
+			});
+			
+
+			
+		</script>
+	</body>
+
+</html>

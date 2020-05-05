@@ -1,0 +1,59 @@
+package com.summer.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.summer.pojo.Factory;
+import com.summer.service.IFactoryService;
+
+@Controller
+public class FactoryController {
+
+	@Autowired
+	private IFactoryService factoryService;
+
+	@ResponseBody
+	@GetMapping("/getAllFactory")
+	public List<Factory> getAllFactory() {
+		List<Factory> list = factoryService.getAllFactory();
+		return list;
+	}
+	@ResponseBody
+	@GetMapping("/getFactory")
+	public List<Factory> getFactory() {
+		// 模拟获取数据查询
+		Factory f = new Factory();
+		f.setFlag(0);
+		List<Factory> list = factoryService.getFactory(f);
+		return list;
+	}
+
+	//注册工厂
+	@PostMapping("/registerFactory")
+	public String postFactory(Factory factory) {
+		//System.out.println(factory);
+		factoryService.insertFactory(factory);
+		return "welcome";
+	}
+	
+	@ResponseBody
+	@GetMapping("/deleteFactory")
+	public String deleteFactory() {
+		//模拟获取上传id
+		boolean b = factoryService.deltetFactoryById(7);
+		System.out.println("deleteFactory====>" + b);
+		if (b) {
+			return "删除工厂成功";
+		} else {
+			return "删除工厂失败";
+		}
+
+	}
+
+}

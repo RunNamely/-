@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.dao.IProductOrderDao">
+
+	<!-- 插入列数据 -->
+	<sql id="insertProductOrderCol">
+		flag, create_time, create_userid, order_seq, order_source,
+		product_id, product_count, end_date, order_status, factory_id,
+		factory_yield
+	</sql>
+
+	<!-- 工厂数据插入 -->
+	<insert id="insertProductOrder" parameterType="ProductOrder">
+		INSERT INTO t_product_order (
+		<include refid="insertProductOrderCol" />
+		)
+		VALUES(
+		#{flag},
+		NOW(),
+		#{createUserid},
+		#{orderSeq},
+		#{orderSource},
+		#{productId},
+		#{productCount},
+		#{endDate},
+		#{orderStatus},
+		#{factoryId},
+		#{factoryYield}
+		)
+	</insert>
+
+	<!-- 根据工厂id删除工厂数据 -->
+	<delete id="deltetProductOrderById">
+		DELETE FROM t_product_order WHERE id = #{id};
+	</delete>
+
+	<!-- 修改工厂数据 -->
+	<update id="updateProductOrder" parameterType="ProductOrder">
+		UPDATE t_product_order
+		<set>
+			<if test="flag!=null">
+				flag=#{flag},
+			</if>
+			update_time=NOW(),
+			<if test="updateUserid!=null">
+				update_userid=#{updateUserid},
+			</if>
+			<if test="productId!=null">
+				product_id=#{productId},
+			</if>
+			<if test="productCount!=null">
+				product_count=#{productCount},
+			</if>
+			<if test="endDate!=null">
+				end_date=#{endDate},
+			</if>
+			<if test="orderStatus!=null">
+				order_status=#{orderStatus},
+			</if>
+			<if test="factoryId!=null">
+				factory_id=#{factoryId},
+			</if>
+			<if test="factoryYield!=null">
+				factory_yield=#{factoryYield},
+			</if>
+		</set>
+		WHERE
+		id = #{id};
+	</update>
+
+	<!-- 全查询 -->
+	<select id="selectAll" resultType="ProductOrder">
+		select * from t_product_order
+	</select>
+
+	<!-- 按条件查询 -->
+	<select id="selectProductOrder" parameterType="ProductOrder"
+		resultType="ProductOrder">
+		select * from t_product_order
+		<where>
+			<if test="id!=null">
+				and id=#{id}
+			</if>
+			<if test="flag!=null">
+				and flag=#{flag}
+			</if>
+			<if test="createTime!=null">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserid!=null">
+				and create_userid=#{createUserid}
+			</if>
+			<if test="updateTime!=null">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserid!=null">
+				and update_userid=#{updateUserid}
+			</if>
+			<if test="orderSeq!=null">
+				and order_seq=#{orderSeq}
+			</if>
+			<if test="orderSource!=null">
+				and order_source=#{orderSource}
+			</if>
+			<if test="productId!=null">
+				and product_id=#{productId}
+			</if>
+			<if test="productCount!=null">
+				and product_count=#{productCount}
+			</if>
+			<if test="endDate!=null">
+				and end_date=#{endDate}
+			</if>
+			<if test="factoryId!=null">
+				and factory_id=#{factoryId}
+			</if>
+			<if test="factoryYield!=null">
+				and factory_yield=#{factoryYield}
+			</if>
+		</where>
+	</select>
+
+</mapper>

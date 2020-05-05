@@ -1,0 +1,24 @@
+package com.summer.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.summer.pojo.Product;
+
+@Mapper
+public interface IProductDao {
+
+	// 增加产品
+	public boolean addProduct(Product product);
+
+	// 删除产品
+	public boolean removeProduct(Product product);
+
+	// 更改产品
+	public boolean updateProduct(Product product);
+
+	// 查询产品
+	public List<Product> findProduct(Product product);
+
+}

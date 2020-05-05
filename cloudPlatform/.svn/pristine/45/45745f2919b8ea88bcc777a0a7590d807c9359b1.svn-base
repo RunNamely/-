@@ -1,0 +1,87 @@
+package com.summer.controller;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.summer.pojo.ProductOrder;
+import com.summer.service.IProductOrderService;
+
+@Controller
+@RequestMapping("/ProductOrder")
+public class ProductOrderController {
+
+	@Autowired
+	private IProductOrderService productOrderService;
+
+	@GetMapping("/ProductOrder_list")
+	public String goToProductOrder_list() {
+		return "product-order-list";
+	}
+
+	@ResponseBody
+	@GetMapping("/postProductOrder")
+	public String postProductOrder() {
+		// 模拟前端获取数据
+		ProductOrder productOrder = new ProductOrder();
+//		productOrder.setCreateUserid(1001);
+		productOrder.setEndDate(new Date());
+		boolean b = productOrderService.insertProductOrder(productOrder);
+		if (b) {
+			return "下单成功！";
+		} else {
+			return "下单失败";
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/deleteProductOrder")
+	public String deleteProductOrder() {
+		// 模拟获取数据id（刪除4号）
+		boolean b = productOrderService.deltetProductOrderById(15);
+		if (b) {
+			return "订单删除成功";
+		} else {
+			return "订单删除失败";
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/putProductOrder")
+	public String putProductOrder() {
+		// 模拟获取数据ProductOrder
+		ProductOrder productOrder = new ProductOrder();
+		productOrder.setId(14);
+		productOrder.setUpdateUserid(1002);
+		productOrder.setOrderSource(1002);
+		productOrder.setFlag(0);
+		boolean b = productOrderService.updateProductOrder(productOrder);
+		if (b) {
+			return "订单修改成功";
+		} else {
+			return "订单修改失败";
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/getAll")
+	public List<ProductOrder> getAll() {
+		List<ProductOrder> list = productOrderService.getAll();
+		return list;
+	}
+
+	@ResponseBody
+	@GetMapping("/getProductOrder")
+	public List<ProductOrder> getProductOrder() {
+		ProductOrder productOrder = new ProductOrder();
+		productOrder.setFlag(0);
+		List<ProductOrder> list = productOrderService.getProductOrder(productOrder);
+		return list;
+	}
+
+}

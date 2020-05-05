@@ -1,0 +1,41 @@
+package com.summer.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.summer.dao.IProductDao;
+import com.summer.pojo.Product;
+import com.summer.service.IProductService;
+
+@Service
+public class ProductServiceImpl implements IProductService{
+	@Autowired
+	private IProductDao productDao;
+	@Override
+	public boolean addProduct(Product product) {
+		boolean addProduct = productDao.addProduct(product);
+		return addProduct;
+	}
+
+	@Override
+	public boolean removeProduct(Product product) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateProduct(Product product) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Product> findProduct(Product product) {
+		List<Product> findProduct = productDao.findProduct(product);
+		return findProduct;
+	}
+	
+	
+}

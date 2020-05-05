@@ -1,0 +1,23 @@
+package com.summer.service;
+
+import java.util.List;
+
+import com.summer.pojo.ProductOrder;
+
+public interface IProductOrderService {
+
+	// 插入订单数据
+	boolean insertProductOrder(ProductOrder productOrder);
+
+	// 根据id删除订单数据
+	boolean deltetProductOrderById(Integer id);
+
+	// 修改订单数据
+	boolean updateProductOrder(ProductOrder productOrder);
+
+	// 全查询
+	List<ProductOrder> getAll();
+
+	// 按条件查询
+	List<ProductOrder> getProductOrder(ProductOrder productOrder);
+}

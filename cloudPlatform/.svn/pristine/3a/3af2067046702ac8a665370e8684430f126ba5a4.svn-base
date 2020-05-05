@@ -1,0 +1,192 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<script src="lib/Vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/Vue/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="lib/Vue.util/axiosUtils.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+		<title>可生产产品添加</title>
+		<link href="lib/lightbox2/2.8.1/css/lightbox.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 可生产产品管理 <span class="c-gray en">&gt;</span> 设备可生产产品添加
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div id="app" class="page-container">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+
+				<span class="l"> 
+					<h4   class="btn-success radius">{{factoryId}} 工厂所有产品</h4>
+				</span>
+				<span class="r">共有数据：<strong>{{info.length}}</strong> 条</span>
+			</div>
+			<div class="portfolio-content">
+
+				<ul class="cl portfolio-area ">
+					<template v-for="da in info ">
+						<li class="  text-c" style="border: 3px inset lightblue ;">
+								<div >产品ID: {{da.id}}</div>
+								<div id="">
+									产品名称: {{da.productName}}
+								</div>
+								<div >
+									<img width="155"   v-bind:src="da.productImgUrl"></a>
+								</div>		
+						</li>
+					</template>
+				</ul>
+			</div>
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<form>
+					<span class="l"> 
+					<h4   class="btn-success radius">添加可生产产品及产能</h4>
+				</span>
+			</div>
+			<div class="page-container">
+				<form class="form form-horizontal" id="form-article-add">
+					<div class="row cl">
+						<label class="form-label text-r col-xs-4 col-sm-2">工厂ID:  </label>
+						<div class="formControls col-xs-4 col-sm-3">
+							{{factoryId}}
+						</div>
+					</div><br />
+					<div class="row cl">
+						<label class="form-label text-r col-xs-4 col-sm-2">设备ID:  </label>
+						<div class="formControls col-xs-4 col-sm-3">
+							{{equipmentId}}
+						</div>
+					</div><br />
+					<div class="row cl">
+						<label class="form-label text-r col-xs-4 col-sm-2">产品ID:  </label>
+						<div class="formControls col-xs-4 col-sm-3">
+							<select class="input-text" @change="" v-model="productId" id="productID" name="productNum">
+								<template v-for="da in info">
+									<option v-bind:value="da.id">{{da.id}}</option>
+								</template>
+							</select>
+						</div>
+					</div><br />
+					<div class="row cl">
+						<label class="form-label text-r col-xs-4 col-sm-2">产能:  </label>
+						<div class="formControls col-xs-4 col-sm-3">
+							<input type="text" class="input-text" v-model="yield" placeholder="" id="" name="yield">
+						</div>
+					</div><br />
+					<div class="row cl">
+						<label class="form-label text-r col-xs-4 col-sm-2">产能单位:  </label>
+						<div class="formControls  col-xs-4 col-sm-3">
+							<select class="input-text" @change="" v-model="unit" id="productID" name="productNum">
+								<option value="10">天</option>
+								<option value="20">月</option>
+								<option value="30">年</option>
+								<option value="40">小时</option>
+							</select>
+						</div>
+					</div><br />
+
+					<div class="row cl">
+						<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+							<button v-on:click="add();" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="lib/lightbox2/2.8.1/js/lightbox.min.js"></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					info: [],
+					equipmentId: "",
+					productId: "",
+					yield: "",
+					unit: "",
+					factoryId: ""
+
+				},
+
+				created() {
+					var id = window.location.search;
+					eid = id.substring(id.indexOf("=") + 1, id.length);
+					url = 'http://localhost:8080/CloudPlatform/FactoryProductShowServlet';
+					var params = new URLSearchParams();
+					params.append('eid', eid);
+					//发送seq
+					promisePost(url, params).then(res => {
+						vm.info = res;
+						vm.equipmentId = eid;
+						vm.factoryId = vm.info[0].factoryId;
+
+						console.log(res);
+					}).catch(err => {
+						console.log(err);
+					})
+
+				},
+
+				methods: {
+					add: function() {
+						url = 'http://localhost:8080/CloudPlatform/EquipmentProductAddServlet';
+						var params = new URLSearchParams();
+						params.append('equipmentId', vm.equipmentId);
+						params.append('productId', vm.productId);
+						params.append("yield", vm.yield);
+						params.append('unit', vm.unit);
+						params.append('factoryId', vm.factoryId);
+						promisePost(url, params).then(res => {
+							if(res){
+								alert("添加成功!");
+							}else{
+								alert("添加失败!已存在该产品");
+							}
+							window.location.reload();
+						}).catch(err => {
+							console.log(err);
+						})
+					},
+
+					back: function() {
+
+						url = "equipment-product.html?eid=" + vm.equipmentId; //此处拼接内容
+						window.location.href = url;
+
+					}
+				}
+			});
+
+			$(function() {
+				$(".portfolio-area li").Huihover();
+			});
+		</script>
+	</body>
+
+</html>

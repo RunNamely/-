@@ -1,0 +1,30 @@
+package com.summer.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.summer.pojo.Equipment;
+
+@Mapper
+public interface IEquipmentDao {
+	
+	// 添加设备
+	boolean insertEquipment(Equipment equipment);
+	
+	// 查询共有多少条数据
+	int selectEquipmentCount();
+	
+	// 全查询
+	List<Equipment> selectAll();
+	
+	// 通过id修改设备有效标识，设备名称，设备状态等
+	boolean updateEuqipmentById(int id,int flag,String equipmentName,int equipmentStatus,String equipmentImgUrl);
+	// 通过id删除记录
+	boolean deleteEquipmentById(Integer id);
+	// 通过id查询单条记录
+	Equipment selectEquipmentById(Integer id);
+	// 更新某条记录
+	boolean updateEquipment(Equipment equipment);
+	
+}

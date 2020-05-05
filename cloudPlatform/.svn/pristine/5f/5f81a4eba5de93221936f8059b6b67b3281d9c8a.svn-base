@@ -1,0 +1,435 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<script type="text/javascript" src="lib/Vue/vue.js"></script>
+		<script type="text/javascript" src="lib/Vue/axios.min.js"></script>
+		<script type="text/javascript" src="lib/Vue.util/axiosUtils.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>我的桌面</title>
+	</head>
+	<style type="text/css">
+		table {
+			position: relative;
+			left: 200px;
+		}
+		
+		.row clearfix {
+			position: relative;
+			top: -50px;
+		}
+	</style>
+
+	<body>
+		<div id="app">
+			<div class="page-container">
+				<p class="f-20 text-success">
+					<font size="6" color="#008080">欢迎使用CloudPlatform</font>
+				</p>
+				<footer class="footer mt-20">
+				</footer>
+			</div>
+			
+			<div class="row clearfix">
+				<h4 style="text-align: center;">201工厂设备信息</h4>
+				<div class="col-md-8 column">
+					<table style="margin: auto;" border="1px">
+						<tr height="35px" bgcolor="#D9EDF7">
+							<th style="text-align: center;">
+								<font size="4"><strong>设备ID</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备序号</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备图片</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备名称</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备状态</strong></font>
+							</th>
+						</tr>
+						<tr v-for="da in msg" v-if="da.factoryId=='201'" style="text-align: center;">
+							<td>
+								<font size="3">{{da.id}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.equipmentSeq}}</font>
+							</td>
+							<td>
+								<a><img width="120" class="picture-thumb" v-bind:src="da.equipmentImgUrl"></a>
+							</td>
+							<td>
+								<font size="3">{{da.equipmentName}}</font>
+							</td>
+							<td class="td-status">
+								<template v-if="da.equipmentStatus ==10">
+									<span><font color="green" size="3">启用</font></span>
+								</template>
+								<template v-else-if="da.equipmentStatus ==20">
+									<span><font color="gray" size="3">停用</font></span>
+								</template>
+								<template v-else-if="da.equipmentStatus ==30">
+									<span><font color="red" size="3">故障</font></span>
+								</template>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!--202-->
+			<br/><br/>
+			<div class="row clearfix">
+				<h4 style="text-align: center;">203工厂设备信息</h4>
+				<div class="col-md-8 column">
+					<table style="margin: auto;" border="1px">
+						<tr height="35px" bgcolor="#D9EDF7">
+							<th style="text-align: center;">
+								<font size="4"><strong>设备ID</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备序号</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备图片</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备名称</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备状态</strong></font>
+							</th>
+						</tr>
+						<tr v-for="da in msg" v-if="da.factoryId=='203'" style="text-align: center;">
+							<td>
+								<font size="3">{{da.id}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.equipmentSeq}}</font>
+							</td>
+							<td>
+								<a><img width="120" class="picture-thumb" v-bind:src="da.equipmentImgUrl"></a>
+							</td>
+							<td>
+								<font size="3">{{da.equipmentName}}</font>
+							</td>
+							<td class="td-status">
+								<template v-if="da.equipmentStatus ==10">
+									<span><font color="green" size="3">启用</font></span>
+								</template>
+								<template v-else-if="da.equipmentStatus ==20">
+									<span><font color="gray" size="3">停用</font></span>
+								</template>
+								<template v-else-if="da.equipmentStatus ==30">
+									<span><font color="red" size="3">故障</font></span>
+								</template>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!--205-->
+			<br/><br/>
+			<div class="row clearfix">
+				<h4 style="text-align: center;">205工厂设备信息</h4>
+				<div class="col-md-8 column">
+					<table style="margin: auto;" border="1px">
+						<tr height="35px" bgcolor="#D9EDF7">
+							<th style="text-align: center;">
+								<font size="4"><strong>设备ID</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备序号</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备图片</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备名称</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>设备状态</strong></font>
+							</th>
+						</tr>
+						<tr v-for="da in msg" v-if="da.factoryId=='205'" style="text-align: center;">
+							<td>
+								<font size="3">{{da.id}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.equipmentSeq}}</font>
+							</td>
+							<td>
+								<a><img width="120" class="picture-thumb" v-bind:src="da.equipmentImgUrl"></a>
+							</td>
+							<td>
+								<font size="3">{{da.equipmentName}}</font>
+							</td>
+							<td class="td-status">
+								<template v-if="da.equipmentStatus ==10">
+									<span><font color="green" size="3">启用</font></span>
+								</template>
+								<template v-else-if="da.equipmentStatus ==20">
+									<span><font color="gray" size="3">停用</font></span>
+								</template>
+								<template v-else-if="da.equipmentStatus ==30">
+									<span><font color="red" size="3">故障</font></span>
+								</template>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<footer class="footer mt-20"></footer>
+			<br/><br/>
+			<!--201工厂订单-->
+			<div class="row clearfix">
+				<h4 style="text-align: center;">201工厂订单信息</h4>
+				<div class="col-md-8 column">
+					<table style="margin: auto;" border="1px">
+						<tr height="35px" bgcolor="#D9EDF7">
+							<th style="text-align: center;">
+								<font size="4"><strong>订单编号</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>产品ID</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>产品数量</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>订单状态</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>工厂产能</strong></font>
+							</th>
+						</tr>
+						<tr v-for="da in order" v-if="da.factoryId=='1'" style="text-align: center;">
+							<td>
+								<font size="3">{{da.orderSeq}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.productId}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.productCount}}</font>
+							</td>
+							<td class="td-status">
+								<template v-if="da.orderStatus ==10">
+									<span><font color="gray" size="3">未接单</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==20">
+									<span><font color="green" size="3">已接单</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==30">
+									<span><font color="red" size="3">已拒绝</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==40">
+									<span><font color="darkcyan" size="3">生产中</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==50">
+									<span><font color="burlywood" size="3">订单完成</font></span>
+								</template>
+							</td>
+							<td>
+								<font size="3">{{da.factoryYield}}</font>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<!--202工厂订单-->
+			<br/></br>
+			<div class="row clearfix">
+				<h4 style="text-align: center;">202工厂订单信息</h4>
+				<div class="col-md-8 column">
+					<table style="margin: auto;" border="1px">
+						<tr height="35px" bgcolor="#D9EDF7">
+							<th style="text-align: center;">
+								<font size="4"><strong>订单编号</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>产品ID</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>产品数量</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>订单状态</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>工厂产能</strong></font>
+							</th>
+						</tr>
+						<tr v-for="da in order" v-if="da.factoryId=='2'" style="text-align: center;">
+							<td>
+								<font size="3">{{da.orderSeq}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.productId}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.productCount}}</font>
+							</td>
+							<td class="td-status">
+								<template v-if="da.orderStatus ==10">
+									<span><font color="gray" size="3">未接单</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==20">
+									<span><font color="green" size="3">已接单</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==30">
+									<span><font color="red" size="3">已拒绝</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==40">
+									<span><font color="darkcyan" size="3">生产中</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==50">
+									<span><font color="burlywood" size="3">订单完成</font></span>
+								</template>
+							</td>
+							<td>
+								<font size="3">{{da.factoryYield}}</font>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<!--203工厂订单-->
+			<br/></br>
+			<div class="row clearfix">
+				<h4 style="text-align: center;">203工厂订单信息</h4>
+				<div class="col-md-8 column">
+					<table style="margin: auto;" border="1px">
+						<tr height="35px" bgcolor="#D9EDF7">
+							<th style="text-align: center;">
+								<font size="4"><strong>订单编号</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>产品ID</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>产品数量</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>订单状态</strong></font>
+							</th>
+							<th style="text-align: center;">
+								<font size="4"><strong>工厂产能</strong></font>
+							</th>
+						</tr>
+						<tr v-for="da in order" v-if="da.factoryId=='3'" style="text-align: center;">
+							<td>
+								<font size="3">{{da.orderSeq}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.productId}}</font>
+							</td>
+							<td>
+								<font size="3">{{da.productCount}}</font>
+							</td>
+							<td class="td-status">
+								<template v-if="da.orderStatus ==10">
+									<span><font color="gray" size="3">未接单</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==20">
+									<span><font color="green" size="3">已接单</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==30">
+									<span><font color="red" size="3">已拒绝</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==40">
+									<span><font color="darkcyan" size="3">生产中</font></span>
+								</template>
+								<template v-else-if="da.orderStatus ==50">
+									<span><font color="burlywood" size="3">订单完成</font></span>
+								</template>
+							</td>
+							<td>
+								<font size="3">{{da.factoryYield}}</font>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<footer class="footer mt-20">
+				<div class="container">
+					<!--<input type="button" class="btn btn-success radius size-L" value="查询设备信息" @click="get()" />-->
+					<a class="btn btn-success radius size-L" href="/factory">
+						<font color="white">注册工厂</font>
+					</a>
+				</div>
+			</footer>
+		</div>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+		<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+		<script type="text/javascript" src="lib/Vue.util/axiosUtils.js"></script>
+		<!--此乃百度统计代码，请自行删除-->
+
+		<script>
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					msg: [],
+					order:[]
+				},
+
+				created() {
+					url1 = 'http://localhost:8080/CloudPlatform/FirstPageServlet';
+					console.log("连接成功");
+					promiseGet(url1)
+						.then(res => {
+							console.log(res);
+							vm.msg = res;
+						}).catch(err => {
+							console.log(err);
+						})
+						
+					url2 = 'http://localhost:8080/CloudPlatform/FirstPageShowProductServlet';
+					console.log("连接成功");
+					promiseGet(url2)
+						.then(res => {
+//							console.log(res[3].factoryId);
+							vm.order = res;					
+						}).catch(err => {
+							console.log(err);
+						})
+				}
+			})
+		</script>
+		<!--/此乃百度统计代码，请自行删除-->
+	</body>
+
+</html>

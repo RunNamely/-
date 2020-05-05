@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.dao.IProductPlanDao">
+ 
+  
+
+	<select id="selectProductPlan" resultType="ProductPlan">
+		SELECT * FROM t_product_plan 
+		 <where>
+			<if test="id!=null">
+				id = #{id};
+			</if>
+		</where>
+	</select>
+	
+	<!-- 订单的填充数据 -->
+  <insert id="insertProductPlan" parameterType="ProductPlan">
+		insert into t_product_plan
+		(
+		plan_count,
+		delivery_date,
+		plan_start_date,
+		plan_end_date)
+		values
+		(
+		#{plan_count},
+		#{delivery_date},
+		#{plan_start_date},
+		#{plan_end_date}
+		)
+	
+ </insert> 
+
+
+	<update id="qidong">
+	   update t_product_plan set plan_status="20" WHERE id=#{id} and plan_status="10"
+	</update>
+     <update id="updateProductPlan">
+		UPDATE t_product_schedule
+		<set>
+			<if test="flag=1 and flag=0">
+				and flag=#{flag}
+			</if>
+			<if test="create_time!=null">
+				and create_time=#{create_time}
+			</if>
+			<if test="create_userid!=null">
+				and create_userid=#{create_userid}
+			</if>
+			<if test="update_time!=null">
+				and update_time=#{update_time},
+			</if>
+			<if test="update_userid!=null">
+				and update_userid=#{update_userid},
+			</if>
+			<if test="plan_seq!=null">
+				and plan_seq=#{plan_seq},
+			</if>
+			<if test="order_id!=null">
+				and order_id=#{order_id},
+			</if>
+			<if test="product_id!=null">
+				and product_id=#{product_id},
+			</if>
+			<if test="plan_count!=null">
+				and plan_count=#{plan_count},
+			</if>
+			<if test="delivery_date!=null">
+				and delivery_date=#{delivery_date},
+			</if>
+			<if test="plan_start_date!=null">
+				and plan_start_date=#{plan_start_date},
+			</if>
+			<if test="plan_end_date!=null">
+				and plan_end_date=#{plan_end_date},
+			</if>
+			<if test="plan_status!=null">
+				and plan_status=#{plan_status},
+			</if>
+			<if test="factory_id!=null">
+				and factory_id=#{factory_id},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null">
+				id=#{id}
+			</if>
+		</where>
+	</update> 
+	<delete id="deleteProductPlan"> 
+		delete from t_product_plan WHERE id = #{id} and plan_status!="20"
+	 </delete>
+</mapper>

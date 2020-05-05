@@ -1,0 +1,27 @@
+package com.summer.pojo;
+
+import java.sql.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductPlan {
+	private Integer id;//ID标识
+	private Integer flag;//有效标识  0：有效  1：无效		默认：0
+	private Date createTime;//创建						默认：null
+	private Integer createUserid;//创建人ID				默认：null
+	private Date updateTime;//修改时间					默认：null
+	private Integer updateUserid;//修改人ID				默认：null
+	private String planSeq;//计划编号					默认：null
+	private Integer orderId;//订单ID
+	private Integer	productId;//产品ID
+	private Integer	planCount;//计划数量				默认：null
+	private Date deliveryDate;//交货日期				默认：null
+	private Date planStartDate;//计划开始日期			默认：null
+	private Date planAndDate;//计划结束日期			默认：null
+	private Integer planStatus;//计划状态  10：未启动  20：已启动   30：已完成		默认：10
+	private Integer factoryId;//工厂ID
+}

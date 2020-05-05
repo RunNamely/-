@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	
+		<title>订单列表</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<style type="text/css">
+			.pageNum{
+			border:1px solid;
+			margin-left:10px;
+			}
+		</style>
+	</head>
+
+	<body>
+	
+        
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 生产管理 <span class="c-gray en">&gt;</span> 生产计划管理
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		
+		<div class="page-container" id="trtemp">
+		  <form action="productPlan" method="get">
+			<div class="text-c">
+				<div class="cl pd-5 bg-1 bk-gray mt-20">
+					 <span class="l">
+					    <a class="btn btn-primary radius" href="/addlist">
+						    <i class="Hui-iconfont">
+						    &#xe600;
+						    </i> 添加生产计划
+					    </a>
+					 </span>
+					 <span class="r">
+					        共有数据：<strong th:text="${size}"></strong> 条
+					  </span> 
+				   
+				   </div>
+				<div class="mt-20">
+					<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
+						<thead>
+							<tr class="text-c">
+								<th width="25"><input type="checkbox" name="" value=""></th>
+								<th width="60">计划id</th>
+								<th width="60">创建时间</th>
+								<th width="60">创建人id</th>
+								<th width="100">修改时间</th>
+								<th width="60">修改人id</th>
+								<th width="80">计划序列号</th>
+								<th width="50">订单id</th>
+								<th width="50">产品id</th>
+								<th width="50">产品数量</th>
+								<th width="100">交货日期</th>
+								<th width="100">开始日期</th>
+								<th width="100">结束日期</th>
+								<th width="50">工厂id</th>
+								<th width="50">状态</th>
+								<th width="120">操作</th>
+							</tr>
+						</thead>
+						
+							<tbody>
+								<tr th:each="r:${info.getList()}" class="text-c"  th:id="${r.id}">
+									<td><input name="" type="checkbox" value=""></td>
+									<td id="num"  th:text="${r.id}"></td>
+									<td th:text="${r.createTime}"></td>
+								    <td th:text="${r.createUserid}"></td>
+									<td th:text="${r.updateTime}"></td>
+									<td  th:text="${r.updateUserid}"></td>
+									<td  th:text="${r.planSeq}"></td>
+									<td  th:text="${r.orderId}"></td>
+									<td  th:text="${r.productId}"></td>
+									<td  th:text="${r.planCount}"></td>
+									<td  th:text="${r.deliveryDate}"></td>
+									<td  th:text="${r.planStartDate}"></td>
+									<td  th:text="${r.planAndDate}"></td>
+									<td  th:text="${r.factoryId}"></td>
+									<td class="td_status">
+									    <span th:if="${r.planStatus}==10" class="label label-warning radius">未启用 </span>
+									    <span th:if="${r.planStatus}==20" class="label label-warning radius">已启用</span>
+									    <span th:if="${r.planStatus}==30" class="label label-warning radius">已完成 </span>
+									</td>
+									<td width="60">
+									  		<button class="btn btn-danger" id="delete">删除</button>
+									  		<input type="hidden" th:value="${r.id}" >
+									  		<button th:onclick="" type="submit" class="btn btn-danger start">启动</button>
+									</td> 
+									</tr>
+								<tr>
+								
+									<td colspan="16" width="20px" align="center"> 
+									   
+									          <a class="btn btn-primary radius"
+									          th:style="${info.getPageNum()}==1?'background:gray':''" 
+									          th:href="${info.getPageNum()}!=1?@{/productPlan(pageNum=${info.getFirstPage()})}:'#'">首页</a>
+										     <a class="btn btn-primary radius" 
+										     th:href="${info.getPageNum()}!=1?@{/productPlan(pageNum=${info.getPrePage()})}:'#'"
+										     th:style="${info.getPageNum()}==1?'background:gray':''">上一页</a>
+											<a class="btn btn-primary radius pageNum" aria-label="Previous" 
+											th:style="${info.getPageNum()}==${page}?'background:red':''"
+											 th:each="page:${info.getNavigatepageNums()}" th:text="${page}" 
+											  th:href="@{/productPlan(pageNum=${page})}">
+											</a> &emsp;
+										   <a class="btn btn-primary radius"
+										   th:href="${info.getPageNum()}!=${info.getLastPage()}?@{/productPlan(pageNum=${info.getNextPage()})}:'#'"
+										   th:style="${info.getPageNum()}==${info.getLastPage()}?'background:gray':''">下一页</a>
+										   <a class="btn btn-primary radius"  
+										    th:style="${info.getPageNum()}==${info.getLastPage()}?'background:gray':''"
+										   th:href="${info.getPageNum()}!=${info.getLastPage()}?@{/productPlan(pageNum=${info.getLastPage()})}:'#'">尾页</a>
+									</td>
+								</tr>
+							</tbody>
+					</table>	
+			     </div>
+			</div>	  
+	      </form>
+		</div>
+
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+		<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+		<script type="text/javascript" src="lib/Vue/vue.js"></script>
+		<script type="text/javascript" src="lib/Vue/axios.min.js"></script>
+		<script type="text/javascript" src="lib/Vue.util/axiosUtils.js"></script>
+		<script type="text/javascript">  
+		/* 删除功能 */
+				$(document).on("click","#delete",function(){
+					var _id = $(this).siblings("input").val();
+					if(confirm("确定要删除吗？")){
+						$.ajax({
+							url:"/deleteaction?id="+_id,
+							type:"GET",
+							async:false,//同步
+							success:function(result){
+								if(result==true){
+									$("#"+_id).css("display","none");
+									alert("删除成功!");
+								}else{
+									alert("订单已启动不能删除");
+								}	
+							}
+						})
+					}
+					return false;
+				});
+	   /* 启动功能 */
+	     $(".start").bind("click",function(){
+	    	 if(confirm("启动该订单嘛")){
+	    		 var _id = $(this).siblings("input").val();
+	    		 $.ajax({
+	    			 url:"/start?id="+_id,
+	    			 type:"GET",
+					 async:false,//同步
+					 success:function(result){
+							if(result==true){
+								$("#"+_id+" .td_status span").text("已启用");
+								alert("启动成功！！！");
+							}else{
+								alert("订单不能重复启动！");
+								
+							}	
+						}
+	    		 })
+	    	 }
+	    	 return false;
+	     });
+	     
+	   
+	   
+		/* $('.table-sort').dataTable({
+			"aaSorting": [
+				[1, "desc"]
+			], //默认第几个排序
+			"bStateSave": true, //状态保存
+			"pading": false,
+			"aoColumnDefs": [
+				//{"bVisible": true, "aTargets": [ 3 ]} //控制列的隐藏显示
+				{
+					"orderable": false,
+					"aTargets": [1, 5]
+				} // 不参与排序的列
+			]
+		});  */
+		</script>
+	</body>
+
+</html>

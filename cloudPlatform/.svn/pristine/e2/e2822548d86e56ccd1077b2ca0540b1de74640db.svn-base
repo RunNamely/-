@@ -1,0 +1,36 @@
+package com.summer.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summer.pojo.Equipment;
+import com.summer.service.IEquipmentService;
+
+@Controller
+public class EquipmentAddController {
+
+	@Autowired
+	private IEquipmentService equipmentService;
+
+	// 添加设备
+	@RequestMapping(value = "/addEquipment", method = RequestMethod.POST)
+	public ModelAndView addEquipment(Equipment equipment) {
+		System.out.println(equipment.getFlag() + "" + equipment.getEquipmentSeq() + "" + equipment.getEquipmentName()
+		+ "" + equipment.getEquipmentStatus() + " " + equipment.getEquipmentImgUrl());
+		ModelAndView mv = new ModelAndView();
+		equipment.setFactoryId(1);
+		if(equipmentService.addEquipment(equipment)) {
+			mv.addObject("success","添加成功");
+			mv.setViewName("equipment-add");
+		} else {
+			mv.addObject("success","添加出现问题");
+			mv.setViewName("equipment-add");
+		}
+		return mv;
+	}
+	
+}

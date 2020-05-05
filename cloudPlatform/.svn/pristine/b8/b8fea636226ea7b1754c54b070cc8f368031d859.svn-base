@@ -1,0 +1,108 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.dao.IProductDao">
+	<!-- 按条件查找数据 -->
+	<select id="findProduct" resultType="Product">
+		select * from t_product
+		<where>
+				<if test="id!=null">
+					and id=#{id}
+				</if>
+				<if test="flag!=null">
+					and flag=#{flag}
+				</if>
+				<if test="createTime!=null">
+					and create_time=#{createTime}
+				</if>
+				<if test="createUserid!=null">
+					and create_userid=#{createUserid}
+				</if>
+				<if test="updateTime!=null">
+					and update_time=#{updateTime}
+				</if>
+				<if test="updateUserid!=null">
+					and update_userid=#{updateUserid}
+				</if>
+				<if test="productNum!=null">
+					and product_num=#{productNum}
+				</if>
+				<if test="productName!=null and productName!=''">
+					and product_name=#{productName}
+				</if>
+				<if test="productImgUrl!=null">
+					and product_img_url=#{productImgUrl}
+				</if>
+				<if test="factoryId!=null">
+					and factory_id=#{factoryId}
+				</if>
+		</where>
+	</select>
+	<!-- 插入数据 -->
+	<insert id="addProduct" parameterType="Product">
+		insert into t_product values(#{id},#{flag},now(),#{createUserid},#{updateTime},#{updateUserid},#{productNum},#{productName},#{productImgUrl},#{factoryId})
+	</insert>
+	<!-- 更新数据 -->
+	<update id="updateProduct" parameterType="Product">
+		update t_product
+		<set>
+			<if test="flag!=null">
+					flag=#{flag}
+				</if>
+				<if test="createTime!=null">
+					,create_time=#{createTime}
+				</if>
+				<if test="createUserid!=null">
+					,create_userid=#{createUserid}
+				</if>
+				<if test="updateTime!=null">
+					,update_time=now()
+				</if>
+				<if test="updateUserid!=null">
+					,update_userid=#{updateUserid}
+				</if>
+				<if test="productNum!=null">
+					,product_num=#{productNum}
+				</if>
+				<if test="productName!=null and productName!=''">
+					,product_name=#{productName}
+				</if>
+				<if test="productImgUrl!=null">
+					,product_img_url=#{productImgUrl}
+				</if>
+				<if test="factoryId!=null">
+					,factory_id=#{factoryId}
+				</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	<!-- 删除数据 -->
+	<delete id="removeProduct" parameterType="Product">
+		delete from t_product 
+			<where>
+			id = #{id}
+			</where>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteProduct" parameterType="list">
+		delete from t_product where id in 
+		<foreach collection="list" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+	</delete>
+	<!-- 查找user -->
+	<select id="selectUserByUserName" resultType="User">
+		select * from t_user where user_name = #{userName}
+	</select>
+	<!-- 统计订单状态 -->
+	<select	id="countOrder" resultType="Integer">
+		select count(*) from t_product_order 
+		<where>
+			order_status = #{orderStatus}
+		</where>
+	</select>
+	
+</mapper>

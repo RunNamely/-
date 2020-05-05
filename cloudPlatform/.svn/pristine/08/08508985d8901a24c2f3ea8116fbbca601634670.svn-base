@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<script src="js/echarts.min.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<input th:value="${weijie}" id="weijie" style="display: none" />
+		<input th:value="${yijie}" id="yijie"  style="display: none"/>
+		<input th:value="${jujue}" id="jujue"  style="display: none"/>
+		<input th:value="${shengchan}" id="shengchan"  style="display: none"/>
+		<input th:value="${wancheng}" id="wancheng"  style="display: none"/>
+		 <div id="main" style="width: 600px;height:400px;"></div>
+		     <script type="text/javascript">
+		         // 基于准备好的dom，初始化echarts实例
+		         var myChart = echarts.init(document.getElementById('main'));
+		 
+		         // 指定图表的配置项和数据
+		         var option = {
+    title : {
+        text: '查看工厂订单',
+        subtext: 'Cloud Platform',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['未接单','已接单','已拒绝','生产中','订单完成']
+    },
+    series : [
+        {
+            name: '访问来源',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+                {value:document.getElementById("weijie").value, name:'未接单'},
+                {value:document.getElementById("yijie").value, name:'已接单'},
+                {value:document.getElementById("jujue").value, name:'已拒绝'},
+                {value:document.getElementById("shengchan").value, name:'生产中'},
+                {value:document.getElementById("wancheng").value, name:'订单完成'}
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+		         // 使用刚指定的配置项和数据显示图表。
+		         myChart.setOption(option);
+		     </script>
+	</body>
+</html>

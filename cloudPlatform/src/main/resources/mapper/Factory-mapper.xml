@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.dao.IFactoryDao">
+	<!-- 插入工厂 -->
+	<insert id="insertFactory" parameterType="Factory">
+		insert into t_factory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="flag != null">
+				flag,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createUserid != null">
+				create_userid,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="updateUserid != null">
+				update_userid,
+			</if>
+			<if test="bak != null">
+				bak,
+			</if>
+			<if test="factoryName != null">
+				factory_name,
+			</if>
+			<if test="factoryImgUrl != null">
+				factory_img_url,
+			</if>
+			<if test="factoryAddr != null">
+				factory_addr,
+			</if>
+			<if test="factoryUrl != null">
+				factory_url,
+			</if>
+			<if test="factoryWorker != null">
+				factory_worker,
+			</if>
+			<if test="factoryStatus != null">
+				factory_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="flag != null">
+				#{flag},
+			</if>
+			<if test="createTime != null">
+				DATE_FORMAT('${createTime}','%Y-%m-%d %H:%i:%S'),
+			</if>
+			<if test="createUserid != null">
+				#{createUserid},
+			</if>
+			<if test="updateTime != null">
+				DATE_FORMAT('${updateTime}','%Y-%m-%d %H:%i:%S'),
+			</if>
+			<if test="updateUserid != null">
+				#{updateUserid},
+			</if>
+			<if test="bak != null">
+				#{bak},
+			</if>
+			<if test="factoryName != null">
+				#{factoryName},
+			</if>
+			<if test="factoryImgUrl != null">
+				#{factoryImgUrl},
+			</if>
+			<if test="factoryAddr != null">
+				#{factoryAddr},
+			</if>
+			<if test="factoryUrl != null">
+				#{factoryUrl},
+			</if>
+			<if test="factoryWorker != null">
+				#{factoryWorker},
+			</if>
+			<if test="factoryStatus != null">
+				#{factoryStatus},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 根据工厂id删除工厂数据 -->
+	<delete id="deltetFactoryById">
+		DELETE FROM t_factory WHERE id = #{id};
+	</delete>
+
+	<!-- 修改工厂数据 -->
+	<update id="updateFactory" parameterType="Factory">
+		UPDATE t_factory
+		<set>
+			<if test="factory.flag!=null">
+				flag=#{flag},
+			</if>
+			update_time=NOW(),
+			<if test="factory.updateUserid!=null">
+				update_userid=#{updateUserid},
+			</if>
+			<if test="factory.bak!=null">
+				bak=#{bak},
+			</if>
+			<if test="factory.factoryName!=null">
+				factory_name=#{factoryName},
+			</if>
+			<if test="factory.factoryImgUrl!=null">
+				factory_img_url=#{factoryImgUrl},
+			</if>
+			<if test="factory.factoryAddr!=null">
+				factory_addr=#{factoryAddr},
+			</if>
+			<if test="factory.factoryUrl!=null">
+				factory_url=#{factoryUrl},
+			</if>
+			<if test="factory.factoryWorker!=null">
+				factory_worker=#{factoryWorker},
+			</if>
+			<if test="factory.factoryStatus!=null">
+				factory_status=#{factoryStatus},
+			</if>
+		</set>
+		WHERE
+		id = #{id};
+	</update>
+
+	<!-- 全查询 -->
+	<select id="selectAll" resultType="Factory">
+		select * from t_factory
+	</select>
+
+	<!-- 按条件查询 -->
+	<select id="selectFactroy" parameterType="Factory"
+		resultType="Factory">
+		select * from t_factory
+		<where>
+			<if test="id!=null">
+				and id=#{id}
+			</if>
+			<if test="flag!=null">
+				and flag=#{flag}
+			</if>
+			<if test="createTime!=null">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserid!=null">
+				and create_userid=#{createUserid}
+			</if>
+			<if test="updateTime!=null">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserid!=null">
+				and update_userid=#{updateUserid}
+			</if>
+			<if test="bak!=null">
+				and bak=#{bak}
+			</if>
+			<if test="factoryName!=null">
+				and factory_name=#{factoryName}
+			</if>
+			<if test="factoryImgUrl!=null">
+				and factory_img_url=#{factoryImgUrl}
+			</if>
+			<if test="factoryAddr!=null">
+				and factory_addr=#{factoryAddr}
+			</if>
+			<if test="factoryUrl!=null">
+				and factory_url=#{factoryUrl}
+			</if>
+			<if test="factoryWorker!=null">
+				and factory_worker=#{factoryWorker}
+			</if>
+			<if test="factoryStatus!=null">
+				and factory_status=#{factoryStatus}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 通过查询到的userId查询工厂id -->
+	<select id="selectfactoryIdByUserId" resultType="User">
+		select id from t_factory where create_userid = (select id from t_user where user_name = #{userName})
+	</select>
+	
+	<!-- 把工厂id插入user表中 -->
+	<update id="updateFactoryIdByUserName">
+		update t_user set factory_id = #{factoryId} where user_name = #{userName}
+	</update>
+	
+	<!-- 通过creatId查询用户是否注册工厂 -->
+	<select id="selectIsExcitFactoryByCreatId" resultType="int">
+		select count(*) from t_factory where create_userid=#{creatUserId}
+	</select>
+	
+	<!-- 通过当前用户查询id -->
+	<select id="selectIdByUserName" resultType="int">
+		select id from t_user where user_name = #{userName}
+	</select>
+
+</mapper>

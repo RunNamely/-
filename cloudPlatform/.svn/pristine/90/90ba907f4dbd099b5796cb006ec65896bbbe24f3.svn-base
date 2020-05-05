@@ -1,0 +1,35 @@
+spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+  datasource:
+    url: jdbc:mysql://10.25.211.34:3306/summer?serverTimezone=GMT
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    
+    #设置上传文件最大值和文件最大内存
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+#文件上传路径
+web:
+  upload-path: img/
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.summer.pojo
+  configuration:
+    map-underscore-to-camel-case: true ##开启驼峰命名
+  #bybatis分页插件配置
+  pagehelper: 
+    helper-dialect: mysql  #数据库
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
+
+    

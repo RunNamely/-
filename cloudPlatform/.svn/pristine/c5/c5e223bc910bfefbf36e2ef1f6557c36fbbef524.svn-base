@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.dao.IEquipmentDao">
+	<!-- 根据id查询单条记录 -->
+	<select id="selectEquipmentById" resultType="Equipment">
+		select * from t_equipment where id = #{id}
+	</select>
+	<!-- 查询全部记录 -->
+	<select id="selectAll" resultType="Equipment">
+		select * from t_equipment
+	</select>
+
+	<!-- 添加设备 -->
+	<insert id="insertEquipment" parameterType="Equipment">
+		insert into
+		t_equipment(flag,create_time,equipment_seq,equipment_name,equipment_img_url,equipment_status,factory_id)
+		values(#{flag},now(),#{equipmentSeq},
+		#{equipmentName},#{equipmentImgUrl},#{equipmentStatus},#{factoryId}
+		)
+	</insert>
+	
+	<!-- 查询设备数量 -->
+	<select id="selectEquipmentCount" resultType="int">
+		select count(id) from t_equipment
+	</select>
+	
+	<!-- 修改设备 -->
+	<update id="updateEuqipmentById">
+		update t_equipment set flag=#{flag},equipment_name=#{equipmentName},equipment_status=#{equipmentStatus},equipment_img_url=#{equipmentImgUrl}
+		where id=#{id}
+	</update>
+
+</mapper>

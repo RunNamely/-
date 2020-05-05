@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>云平台 注册</title>
+<!-- Bootstrap core CSS-->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="vendor/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<!-- Custom styles for this template-->
+<link href="css/sb-admin.css" rel="stylesheet">
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+</head>
+
+<body class="bg-dark" style="background-image: url(img/2.jpg)">
+	<div class="container" id="reg_div">
+		<div class="card card-register mx-auto mt-5">
+			<div class="card-header">注册界面</div>
+			<div class="card-body">
+				<form method="post" action="/registerUser"/>
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-6">
+								<label for="exampleInputName">用户名</label> 
+								<input
+									class="form-control" id="exampleInputName" name="userName"
+									type="text" aria-describedby="nameHelp" placeholder="用户名">
+								<span class="help-block"></span>
+							</div>
+							<div class="col-md-6">
+								<label for="exampleInputLastName">用户姓名</label> <input
+									class="form-control reg" id="exampleInputLastName"
+									name="userRealName" type="text" aria-describedby="nameHelp"
+									placeholder="用户姓名"> <span class="help-block"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-6">
+								<label for="exampleInputName">用户工号</label> <input
+									class="form-control reg" id="exampleInputJobNum" name="userJobNum"
+									type="text" aria-describedby="nameHelp" placeholder="用户工号">
+								<span class="help-block"></span>
+							</div>
+							<div class="col-md-6">
+								<label for="exampleInputLastName">手机号</label> <input
+									class="form-control reg" id="exampleInputPhoneNum"
+									name="userPhoneNum" type="text" aria-describedby="nameHelp"
+									placeholder="手机号"> <span class="help-block"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">邮箱</label> <input
+							class="form-control reg" id="exampleInputEmail" type="email"
+							name="userEmail" aria-describedby="emailHelp" placeholder="邮箱">
+						<span class="help-block"></span>
+					</div>
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-6">
+								<label for="exampleInputPassword1">密码</label> <input
+									class="form-control reg" id="exampleInputPassword"
+									name="userPasswd" type="password" placeholder="密码"> <span
+									class="help-block"></span>
+							</div>
+							<div class="col-md-6">
+								<label for="exampleConfirmPassword">重复密码</label> <input
+									class="form-control reg" id="exampleConfirmPassword"
+									type="password" placeholder="重复密码"> <span
+									class="help-block"></span>
+							</div>
+						</div>
+					</div>
+					<button class="btn btn-primary btn-block" type="submit" id="reg_a">注册</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//校验表单数据
+		function validate_add_form() {
+			//校验用户姓名
+			var uRealName = $("#exampleInputLastName").val();
+			var regRealName = /^[\u2E80-\u9FFF]{2,5}$/;
+			if(!regRealName.test(uRealName)){
+				show_validate_msg("#exampleInputLastName","error","用户真实姓名必须是2-5位中文");
+				return false;
+			}else{
+				show_validate_msg("#exampleInputLastName","success","");
+			}	
+			//校验用户工号
+			var uJobNum = $("#exampleInputJobNum").val();
+			var regJobNum = /^[0-9]{3,9}$/;
+			if(!regJobNum.test(uJobNum)){
+				show_validate_msg("#exampleInputJobNum","error","用户工号必须是3-9位数字");
+				return false;
+			}else{
+				show_validate_msg("#exampleInputJobNum","success","");
+			}
+			//校验手机号
+			var uPhoneNum = $("#exampleInputPhoneNum").val();
+			var regPhoneNum = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+			if(!regPhoneNum.test(uPhoneNum)){
+				show_validate_msg("#exampleInputPhoneNum","error","手机号码必须是以1开头的11位数字");
+				return false;
+			}else{
+				show_validate_msg("#exampleInputPhoneNum","success","");
+			}
+			//校验邮箱
+			var uEmail = $("#exampleInputEmail").val();
+			var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+			if(!regEmail.test(uEmail)){
+				show_validate_msg("#exampleInputEmail","error","请输入正确的邮箱格式xxx@xx.com");
+				return false;
+			}else{
+				show_validate_msg("#exampleInputEmail","success","");
+			}
+			//校验密码
+			var uPassword = $("#exampleInputPassword").val();
+			var regpwd = /^[a-z0-9_-]{6,18}$/;
+			if(!regpwd.test(uPassword)){
+				show_validate_msg("#exampleInputPassword","error","密码必须是6-18的数字和英文组合");
+				return false;
+			}else{
+				show_validate_msg("#exampleInputPassword","success","");
+			}
+			//校验重复密码
+			var uRepeatPwd = $("#exampleConfirmPassword").val();
+			if(uRepeatPwd!=uPassword){
+				show_validate_msg("#exampleConfirmPassword","error","重复密码必须与密码保持一致");
+				return false;
+			}else{
+				show_validate_msg("#exampleConfirmPassword","success","");
+			}
+			return true;
+		}
+		
+		//校验信息通知
+		function show_validate_msg(ele,status,msg){
+			
+			if("error"==status){
+				$(ele).next("span").css("color","#aaa").text(msg);
+			}else if("success"==status){
+				$(ele).next("span").text(msg);
+			}
+		}
+		
+		//给input标签绑定input事件  
+		$(".reg").bind("input",function() {
+			validate_add_form();
+		});
+		
+		$("#exampleInputName").bind("input",function(){
+			//alert("haha");
+			//校验用户名是否合法
+			var uName = this.value;
+			var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+			if(!regName.test(uName)||uName==null){
+				show_validate_msg("#exampleInputName","error","用户名必须是2-5位中文或者6-16位英文和数字组合");
+				return false;
+			}else {
+				show_validate_msg("#exampleInputName","success","");
+			}
+			//发送ajax请求校验用户名是否已被注册
+			$.ajax({
+				url:"/checkUserName",
+				data:"userName="+uName,
+				type:"POST",
+				success:function(result){
+					//alert(result);
+					if(result==false){
+						show_validate_msg("#exampleInputName","error","用户名已被注册");
+						$("#reg_a").attr("ajax-validate","error");
+						return false;
+					}else{
+						show_validate_msg("#exampleInputName","success","");
+						$("#reg_a").attr("ajax-validate","success");
+					}
+				}
+			});
+		});
+		
+		//给注册添加点击事件
+		$("#reg_a").click(function() {
+			//校验用户信息是否合法
+			if(!validate_add_form()){
+				return false;
+			};
+			//校验用户名是否已被注册
+			if($("#reg_a").attr("ajax-validate")!="success"){
+				return false;
+			}
+			alert("注册成功！");
+		});
+	</script>
+</body>
+</html>

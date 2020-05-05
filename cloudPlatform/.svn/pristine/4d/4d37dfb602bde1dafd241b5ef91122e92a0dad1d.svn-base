@@ -1,0 +1,33 @@
+package com.summer.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.summer.pojo.ProductOrder;
+
+@Mapper
+public interface IProductOrderDao {
+
+	// 插入订单数据
+	boolean insertProductOrder(ProductOrder productOrder);
+
+	// 根据id删除订单数据
+	boolean deltetProductOrderById(Integer id);
+
+	// 修改订单数据
+	boolean updateProductOrder(ProductOrder productOrder);
+
+	// 全查询
+	List<ProductOrder> selectAll();
+
+	// 按条件查询
+	List<ProductOrder> selectProductOrder(ProductOrder productOrder);
+
+	// 查询所有产品Id
+	List<Integer> selectAllProductId();
+
+	// 通过产品id查询工厂id
+	Integer selectFactoryIdByProductId(Integer productId);
+ 
+}

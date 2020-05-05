@@ -1,0 +1,121 @@
+package com.summer.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summer.pojo.ProductOrder;
+import com.summer.service.IProductOrderService;
+
+@Controller
+public class ProductOrderController {
+
+	@Autowired
+	private IProductOrderService productOrderService;
+
+	@GetMapping("/ProductOrder_list")
+	public ModelAndView goToProductOrder_list() {
+		ModelAndView mv = new ModelAndView("product-order-list");
+		mv.addObject("productOrder_list", productOrderService.getAll());
+		return mv;
+	}
+
+	@GetMapping("/ProductOrder_add")
+	public ModelAndView goToProductOrder_add() {
+		ModelAndView mv = new ModelAndView("product-order-add");
+//		System.out.println("ProductOrder_add------------" + productOrderService.getAllProductId());
+		mv.addObject("productId_list", productOrderService.getAllProductId());
+		return mv;
+	}
+
+	@GetMapping("/ProductOrder_update")
+	public ModelAndView goToProductOrder_update(@RequestParam("id") Integer id) {
+//		System.out.println("ProductOrder_update=============" + id);
+		ModelAndView mv = new ModelAndView();
+		ProductOrder productOrder = new ProductOrder();
+		productOrder.setId(id);
+		mv.setViewName("product-order-update");
+//		System.out.println("ProductOrder_update------------" + productOrderService.getProductOrder(productOrder));
+		mv.addObject("productOrder", productOrderService.getProductOrder(productOrder));
+		return mv;
+	}
+
+	@PostMapping("/postProductOrder")
+	public ModelAndView postProductOrder(ProductOrder productOrder) {
+//		System.out.println("postProductOrder============" + productOrder);
+		boolean b = productOrderService.insertProductOrder(productOrder);
+		ModelAndView mv = new ModelAndView("product-order-add");
+		mv.addObject("productId_list", productOrderService.getAllProductId());
+		if (b) {
+			mv.addObject("msg", "下单成功");
+		} else {
+			mv.addObject("msg", "下单失败");
+		}
+		return mv;
+	}
+
+	@ResponseBody
+	@GetMapping("/deleteProductOrder/{id}")
+	public String deleteProductOrder(@PathVariable Integer id) {
+//		System.out.println("deleteProductOrder=======" + id);
+		boolean b = productOrderService.deltetProductOrderById(id);
+		if (b) {
+			return "订单删除成功";
+		} else {
+			return "订单删除失败";
+		}
+	}
+
+	@PostMapping("/putProductOrder")
+	public ModelAndView putProductOrder(ProductOrder productOrder) {
+		System.out.println(productOrder);
+		boolean b = productOrderService.updateProductOrder(productOrder);
+		ModelAndView mv = new ModelAndView("product-order-update");
+		mv.addObject("productOrder", productOrderService.getProductOrder(productOrder));
+		if (b) {
+			mv.addObject("msg", "订单修改成功");
+		} else {
+			mv.addObject("msg", "订单修改失败");
+		}
+		return mv;
+	}
+
+	@ResponseBody
+	@GetMapping("/putProductOrderStatus")
+	public String putProductOrderStatus(@RequestParam("id") Integer id,
+			@RequestParam("orderStatus") Integer orderStatus) {
+		System.out.println("putProductOrderStatus--------------" + id + "  " + orderStatus);
+		ProductOrder productOrder = new ProductOrder();
+		productOrder.setId(id);
+		productOrder.setOrderStatus(orderStatus);
+		boolean b = productOrderService.updateProductOrder(productOrder);
+		if (b) {
+			return "订单状态更新成功";
+		} else {
+			return "订单状态更新失败";
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/getAll")
+	public List<ProductOrder> getAll() {
+		List<ProductOrder> list = productOrderService.getAll();
+		return list;
+	}
+
+	@ResponseBody
+	@GetMapping("/getProductOrder")
+	public List<ProductOrder> getProductOrder() {
+		ProductOrder productOrder = new ProductOrder();
+		List<ProductOrder> list = productOrderService.getProductOrder(productOrder);
+		return list;
+	}
+
+}

@@ -1,0 +1,71 @@
+package com.summer.controller;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summer.pojo.User;
+import com.summer.service.IUserService;
+
+@Controller
+public class LoginController {
+
+	@Autowired
+	IUserService userService;
+
+	//跳转到登录界面
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String toLogin() {
+		return "login";
+	}
+
+	//跳转到注册界面
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String register() {
+		return "register";
+	}
+	
+	
+	@RequestMapping("/welcome")
+	public String welcome() {
+		return "welcome";
+	}
+	
+	@RequestMapping("/factory")
+	public String factory(){
+		return "factory";
+	}
+	
+	@RequestMapping("/forgotPwd")
+	public String forgetPwd() {
+		return "forgot-password";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView loginHandler(@RequestParam("userName") String username,
+			@RequestParam("userPasswd") String userPasswd,HttpSession session) {
+		session.setAttribute("uName",username);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("login");
+		if(username!=null) {
+			User user = userService.findUserByUserName(username);
+			if (user == null) {
+				mav.addObject("error","用户不存在,立即注册");
+				return mav;
+			} else{
+				if (user.getUserPasswd().equals(userPasswd.trim())) {
+					mav.setViewName("index");
+					return mav;
+				}else {
+					mav.addObject("pwdError","密码输入有误");
+					return mav; 	
+				}
+			}
+		}
+		return mav;
+	}
+}

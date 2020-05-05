@@ -1,0 +1,98 @@
+package com.summer.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summer.pojo.ProductOrder;
+import com.summer.service.IProductOrderService;
+
+@Controller
+public class ProductOrderController {
+
+	@Autowired
+	private IProductOrderService productOrderService;
+
+	@GetMapping("/ProductOrder_list")
+	public ModelAndView goToProductOrder_list() {
+		ModelAndView mv = new ModelAndView("product-order-list");
+		mv.addObject("productOrder_list", productOrderService.getAll());
+		return mv;
+	}
+
+	@GetMapping("/ProductOrder_add")
+	public ModelAndView goToProductOrder_add() {
+		ModelAndView mv = new ModelAndView("product-order-add");
+		System.out.println("ProductOrder_add------------" + productOrderService.getAllProductId());
+		mv.addObject("productId_list", productOrderService.getAllProductId());
+		return mv;
+	}
+
+	@PostMapping("/postProductOrder")
+	public ModelAndView postProductOrder(ProductOrder productOrder) {
+		System.out.println("postProductOrder============" + productOrder);
+		boolean b = productOrderService.insertProductOrder(productOrder);
+		ModelAndView mv = new ModelAndView();
+		if (b) {
+			mv.setViewName("product-order-add");
+			mv.addObject("msg", "下单成功");
+			return mv;
+		} else {
+			mv.setViewName("product-order-add");
+			mv.addObject("msg", "下单失败");
+			return mv;
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/deleteProductOrder/{id}")
+	public String deleteProductOrder(@PathVariable Integer id) {
+//		System.out.println("deleteProductOrder=======" + id);
+		boolean b = productOrderService.deltetProductOrderById(id);
+		if (b) {
+			return "订单删除成功";
+		} else {
+			return "订单删除失败";
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/putProductOrder")
+	public String putProductOrder() {
+		// 模拟获取数据ProductOrder
+		ProductOrder productOrder = new ProductOrder();
+		productOrder.setId(14);
+		productOrder.setUpdateUserid(1002);
+		productOrder.setOrderSource(1002);
+		productOrder.setFlag(0);
+		boolean b = productOrderService.updateProductOrder(productOrder);
+		if (b) {
+			return "订单修改成功";
+		} else {
+			return "订单修改失败";
+		}
+	}
+
+	@ResponseBody
+	@GetMapping("/getAll")
+	public List<ProductOrder> getAll() {
+		List<ProductOrder> list = productOrderService.getAll();
+		return list;
+	}
+
+	@ResponseBody
+	@GetMapping("/getProductOrder")
+	public List<ProductOrder> getProductOrder() {
+		ProductOrder productOrder = new ProductOrder();
+		productOrder.setFlag(0);
+		List<ProductOrder> list = productOrderService.getProductOrder(productOrder);
+		return list;
+	}
+
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="Bookmark" href="/favicon.ico">
+		<link rel="Shortcut Icon" href="/favicon.ico" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+
+<![endif]-->
+		<link href="static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+		<link href="static/h-ui.admin/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+		<link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
+
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>数据来源与订单编号</title>
+	</head>
+
+	<body>
+		<div id="vtemp">
+			<form class="form form-horizontal" id="form-article-add">
+				<div id="tab-system" class="HuiTab">
+					<div class="tabCon" style="display: block;">
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">
+							订单编号(数据来源订单管理)：</label>
+							<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select @change="numChange" v-model="pnum" class="select valid" size="1" aria-required="true" aria-invalid="false">
+				<template v-for="i in ddbh">
+				<option v-bind:value="i.id">{{i.id}}</option>
+				</template>
+			</select><label id="adminRole-error" class="error valid" for="jihua"></label>
+			</span> </div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">
+						产品名称：</label>
+							<div class="formControls col-xs-8 col-sm-9">
+								<input v-model="cpmc" type="text" id="jihua-chanpin" placeholder="产品名称，选择订单编号后自动带出" class="input-text" readonly="readonly">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>计划数量：</label>
+							<div class="formControls col-xs-8 col-sm-9">
+								<input v-model="jhsl" type="text" id="jihua-shuliang" placeholder="计划数量，选择订单编号后自动带出" class="input-text" readonly="readonly" required="required">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">
+						交货日期：</label>
+							<div class="formControls col-xs-8 col-sm-9">
+								<input v-model="jhrq" type="text" id="jihua-jiaohuo" placeholder="交货日期，选择订单编号后自动带出" class="input-text" readonly="readonly">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						开始日期：</label>
+							<div class="formControls col-xs-8 col-sm-9">
+								<input v-model="starttime" type="text" id="jihua-kaishiriqi" placeholder="计划开始日期" class="input-text" required="required">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						结束时间：</label>
+							<div class="formControls col-xs-8 col-sm-9">
+								<input v-model="endtime" type="text" id="jihua-jieshushijian" placeholder="计划结束时间" class="input-text" required="required">
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="row cl">
+					<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+						<button @click="formPost" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont"></i> 保存</button>
+						<button onclick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+		<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+		<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<script type="text/javascript" src="lib/Vue/vue.js"></script>
+		<script type="text/javascript" src="lib/Vue/axios.min.js"></script>
+		<script type="text/javascript" src="lib/Vue.util/axiosUtils.js"></script>
+		<script>
+			var vm = new Vue({
+				el: '#vtemp',
+				data: {
+					cpmc: '',
+					jhsl: '',
+					jhrq: '',
+					pnum: '',
+					starttime: '',
+					endtime: '',
+					ddbh: []
+				},
+				created() {
+					url = 'http://127.0.0.1:8080/CloudPlatform/GetAllProductOrderServlet';
+					promiseGet(url)
+						.then(res => {
+							vm.ddbh = res;
+							console.log(res);
+						}).catch(err => {
+							console.log(err);
+						})
+				},
+				methods: {
+					numChange() {
+						url = 'http://127.0.0.1:8080/CloudPlatform/GetSCInfoServlet';
+
+						var params = {
+							params: {
+								'ddbh': vm.pnum
+							}
+						}
+
+						promiseGet(url, params)
+							.then(res => {
+								vm.cpmc = res.productId;
+								vm.jhsl = res.productCount;
+								vm.jhrq = res.endDate;
+							}).catch(err => {
+								console.log(err);
+							})
+					},
+					formPost() {
+						url = 'http://127.0.0.1:8080/CloudPlatform/CreateProductPlanServlet';
+						var params = new URLSearchParams();
+						params.append('ddbh', vm.pnum);
+						params.append('cpmc', vm.cpmc);
+						params.append('jhsl', vm.jhsl);
+						params.append('jhrq', vm.jhrq);
+						params.append('starttime', vm.starttime);
+						params.append('endtime', vm.endtime);
+
+						promisePost(url, params)
+							.then(res => {
+								alert("请求成功！");
+							}).catch(err => {
+								console.log(err);
+							})
+					}
+				}
+
+			})
+		</script>
+
+	</body>
+
+</html>

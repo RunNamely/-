@@ -1,0 +1,27 @@
+package com.summer.pojo;
+
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductOrder {
+	private Integer id;// ID标识
+	private Integer flag;// 有效标识 0：有效 1：无效 默认0
+	private Date createTime;// 创建时间 默认null
+	private Integer createUserid;// 创建ID 默认null
+	private Date updateTime;// 修改时间 默认null
+	private Integer updateUserid;// 修改人ID 默认null
+	private String orderSeq;// 订单编号
+	private Integer orderSource;// 订单来源 默认null
+	private Integer productId;// 产品ID 默认null
+	private Integer productCount;// 产品数量
+	private Date endDate;// 订单截至日期
+	private Integer orderStatus;// 订单状态 10：未接单 20：已接单 30：已拒绝 40：生产中 50：订单完成 默认：10
+	private Integer factoryId;// 工厂ID
+	private Integer factoryYield;// 工厂产能 默认：null
+}
